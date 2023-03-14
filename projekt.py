@@ -1,13 +1,14 @@
-import easygui
+from easygui import*
 import os
 import win32api
+img = "C:\\Users\\Aloha\\Desktop\\Progemine\\Git\\Lost-Files\\racc.png"
 #Mida
-otsitav = easygui.enterbox("What file are you looking for?")
+otsitav = enterbox("What file are you looking for?")
 #Arvutis leiduvad kettad
 drives = win32api.GetLogicalDriveStrings()
 drives = drives.split('\000')[:-1]
 #Kust
-path = easygui.buttonbox("From where do you want to search from?", "Choose which drive", drives)
+path = buttonbox("From where do you want to search?" + "\n" + "(He will find it)", "Choose which drive",image = img,  choices = drives)
 #Faili leidmine
 def find_files(filename, search_path):
    result = []
@@ -15,6 +16,6 @@ def find_files(filename, search_path):
    for root, dir, files in os.walk(search_path):
       if filename in files:
          result.append(os.path.join(root, filename))
-   return result
+   return msgbox(f"Fail asub: {result}") #Message
 
 print(find_files(otsitav,path))
