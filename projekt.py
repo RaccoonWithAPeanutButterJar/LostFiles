@@ -18,4 +18,4 @@ def find_files(filename, search_path):
          result.append(os.path.join(root, filename))
    return msgbox(f"Fail asub: {result}") #Message
 
-print(find_files(otsitav,path))
+find_files(otsitav,path)
