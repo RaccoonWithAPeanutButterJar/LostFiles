@@ -1,7 +1,7 @@
 from easygui import*
 import os
 import win32api
-img = "C:\\Users\\Aloha\\Desktop\\Progemine\\Git\\Lost-Files\\racc.png"
+img = ".\\racc.png"
 #Mida
 otsitav = enterbox("What file are you looking for?")
 #Arvutis leiduvad kettad
