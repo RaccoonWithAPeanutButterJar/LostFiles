@@ -3,9 +3,20 @@ from pathlib import Path
 import os
 import win32api
 
-layout1 = [[sg.Text('Mis faili soovid leida: ')],
-          [sg.In(size=(40, 20), enable_events = True, key = "-INPUT-"), sg.FolderBrowse()],
-          [sg.Button("OK", enable_events = True, size = (3, 1), key = "-OK-"), sg.Cancel()]]
+global drives
+drives = win32api.GetLogicalDriveStrings()
+drives = drives.split('\000')[:-1]
+def add_drives(list = []):
+    for i in drives:
+        list.append(i)
+    return list
+
+layout1 = [
+        [sg.Text('Mis faili soovid leida: ')],
+        [sg.In(size=(40, 20), enable_events = True, key = "-INPUT-"), sg.FolderBrowse()],
+        [sg.Text('Kust kettalt: ')],
+        [sg.Combo(values = add_drives(), font=('Arial Bold', 14),  expand_x=True, enable_events=True,  readonly=False, key='-COMBO-')],
+        [sg.Button("OK", enable_events = True, size = (3, 1), key = "-OK-"), sg.Cancel()]]
 
 window = sg.Window('Faili otsing', layout1)
 
