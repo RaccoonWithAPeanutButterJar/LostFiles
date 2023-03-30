@@ -4,14 +4,21 @@ import os
 import win32api
 
 layout1 = [[sg.Text('Mis faili soovid leida: ')],
-          [sg.In(size=(40, 20), key = "-FILE-"), sg.FileBrowse()],
-          [sg.Button( size = (3, 1), key = "-OK-"), sg.Cancel()]] #ADD TEXT TO BUTTON!
+          [sg.In(size=(40, 20), enable_events = True, key = "-INPUT-"), sg.FolderBrowse()],
+          [sg.Button("OK", enable_events = True, size = (3, 1), key = "-OK-"), sg.Cancel()]]
 
 window = sg.Window('Faili otsing', layout1)
 
-event, values = window.read()
+while True:
+    event, values = window.read()
+    if event == sg.WINDOW_CLOSED:
+        break
+    elif event == "-INPUT-":
+        global filepath
+        filepath = values["-INPUT-"]
+        print(filepath)
+        break
 window.close()
-
 
 #definition for popup
 def popup_text(filename, text):
@@ -31,8 +38,9 @@ def popup_text(filename, text):
 file_list_column = [
     [
         sg.Text("Folder: "),
-        sg.In(size=(25, 1), enable_events=True, key="-FOLDER-"),
+        sg.Input(default_text = filepath, size=(25, 1), enable_events=True, key="-FOLDER-"),
         sg.FolderBrowse(),
+        sg.Button("OK", enable_events = True, size = (3, 1), key = "-OK-"),
     ],
     [
         sg.Listbox(
@@ -46,7 +54,7 @@ file_open_column = [
     [sg.Text(size=(40, 1), key="-TOUT-")],
 ]
 
-#Layout for window
+#Layout for main window
 layout = [
     [
         sg.Column(file_list_column),
@@ -54,18 +62,17 @@ layout = [
         sg.Column(file_open_column),
     ]
 ]
-
 #Window
-window = sg.Window("File Viewer", layout)
+window = sg.Window("FILE VIEWER", layout, finalize = True)
 
-#While for the main window
+#While loop for the main window
+# Folder name was filled in form the last window, make a list of files in the folder
 while True:
     event, values = window.read()
     if event == "Exit" or event == sg.WIN_CLOSED:
         break
-
-    # Folder name was filled in, make a list of files in the folder
-    elif event == "-FOLDER-":
+    #Folder field was filled in
+    if event == "-OK-":
         folder = values["-FOLDER-"]
         try:
             # Get list of files in folder
@@ -79,11 +86,11 @@ while True:
             if os.path.isfile(os.path.join(folder, f))
         ]
         window["-FILE LIST-"].update(fnames)
-
-    elif event == "-FILE LIST-":  # A file was chosen from the listbox
+    # A file was chosen from the listbox
+    elif event == "-FILE LIST-":  
         filename = os.path.join(
             values["-FOLDER-"], values["-FILE LIST-"][0]
-        )
+            )
         if Path(filename).is_file():
             try:
                 with open(filename, "rt", encoding='utf-8') as f:
@@ -91,5 +98,5 @@ while True:
                 popup_text(filename, text)
             except Exception as e:
                 print("Error: ", e)
-
+    
 window.close()
