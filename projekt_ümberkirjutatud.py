@@ -13,7 +13,7 @@ def add_drives(list = []):
     return list
 
 #Kausta minemine
-def mine_kausta(filepath):
+def kaust(filepath):
     #File view
     file_list_column = [
         [
@@ -130,74 +130,7 @@ while True:
 window.close()
 
 if os.path.isdir(filepath):
-    #File view
-    file_list_column = [
-        [
-            sg.Text("Folder: "),
-            #filepath here
-            sg.Input(default_text = filepath, size=(25, 1), enable_events=True, key="-FOLDER-"),
-            sg.FolderBrowse(),
-            sg.Button("OK", enable_events = True, size = (3, 1), key = "-OK-"),
-        ],
-        [
-            sg.Listbox(
-                values=[], enable_events=True, size=(40, 20), key="-FILE LIST-"
-            )
-        ],
-    ]
-
-    file_open_column = [
-        [sg.Text("Choose a file from the list:")],
-        [sg.Text(size=(40, 1), key="-TOUT-")],
-    ]
-
-    #Layout for main window
-    layout = [
-        [
-            sg.Column(file_list_column),
-            sg.VSeperator(),
-            sg.Column(file_open_column),
-        ]
-    ]
-    #Window
-    window = sg.Window("Kausta sisu", layout, finalize = True)
-
-    #While loop for the main window
-    # Folder name was filled in form the last window, make a list of files in the folder
-    while True:
-        event, values = window.read()
-        if event == "Exit" or event == sg.WIN_CLOSED:
-            break
-        #Folder field was filled in
-        if event == "-OK-":
-            folder = values["-FOLDER-"]
-            try:
-                # Get list of files in folder
-                file_list = os.listdir(folder)
-            except:
-                file_list = []
-
-            fnames = [
-                f
-                for f in file_list
-                if os.path.isfile(os.path.join(folder, f))
-            ]
-            window["-FILE LIST-"].update(fnames)
-        # A file was chosen from the listbox
-        elif event == "-FILE LIST-":  
-            filename = os.path.join(
-                values["-FOLDER-"], values["-FILE LIST-"][0]
-                )
-            if Path(filename).is_file():
-                try:
-                    with open(filename, "rt", encoding='utf-8') as f:
-                        text = f.read()
-                    popup_text(filename, text)
-                except Exception as e:
-                    print("Error: ", e)
-        
-    window.close()
-
+   kaust(filepath)
 else:
     faili_tulemuste_menüü = [
         [
@@ -213,7 +146,7 @@ else:
         if event == sg.WINDOW_CLOSED or event == "Exit" or event == "-CANCEL-":
             break
         elif event == "-VII-":
-            mine_kausta(filepath[0:filepath.rfind("\\")])
+            kaust(filepath[0:filepath.rfind("\\")])
             break
             
     window.close()
