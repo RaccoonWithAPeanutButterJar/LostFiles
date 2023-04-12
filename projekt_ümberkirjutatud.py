@@ -45,9 +45,7 @@ def kaust(filepath):
     ]
     #Window
     window = sg.Window("Kausta sisu", layout, finalize = True)
-
     #While loop for the main window
-    # Folder name was filled in form the last window, make a list of files in the folder
     while True:
         event, values = window.read()
         if event == "Exit" or event == sg.WIN_CLOSED:
@@ -104,28 +102,63 @@ def popup_text(filename, text):
         event, values = win.read()
         if event == sg.WINDOW_CLOSED:
             break
-    win.close()
+    win.close()  
+
+with open("ajalugu.txt") as lugemine:
+    filepaths = []
+    for rida in lugemine:
+        filepaths.append(rida)
+        fpath = [
+                f
+                for f in filepaths
+            ]
 
 faili_otsimis_menüü = [
         [sg.Text('Mis faili soovid leida: ')],
         [sg.In(size=(40, 20), key = "-INPUT-"), sg.FolderBrowse()],
         [sg.Text('Kust kettalt (Kui kasutad browse, siis võid vahele jätta): ')],
         [sg.Combo(values = add_drives(), font=('Arial Bold', 14),  expand_x=True, enable_events=True,  readonly=False, key='-COMBO-')],
-        [sg.Button("OK", enable_events = True, size = (3, 1), key = "-OK-"), sg.Button("Cancel", enable_events = True, key = "-CANCEL-")]]
+        [sg.Button("OK", enable_events = True, size = (3, 1), key = "-OK-"), sg.Button("Cancel", enable_events = True, key = "-CANCEL-")]
+        ]
 
-window = sg.Window('Faili otsing', faili_otsimis_menüü)
+ajalugu = [
+    [sg.Text("Ajalugu")],
+    [sg.Listbox(values=[], enable_events=True, size=(40, 20), key="-AJALUGU-")],
+]
 
+layout2 = [
+        [
+            sg.Column(ajalugu),
+            sg.VSeperator(),
+            sg.Column(faili_otsimis_menüü),
+        ]
+]
+
+global filepath
+
+window = sg.Window('Faili otsing', layout2, finalize = True)
+if filepaths:
+    window["-AJALUGU-"].update(fpath)
 while True:
     event, values = window.read()
     if event == sg.WINDOW_CLOSED or event == "Exit" or event == "-CANCEL-":
         break
+    elif event == "-AJALUGU-":
+        filepath = values["-AJALUGU-"][0]
+        print(filepath)
+        break
     elif event == "-OK-":
-        global filepath
         if os.path.isdir(values["-INPUT-"]):
             filepath = values["-INPUT-"]
+            print(filepath)
+            with open("a.txt", "a") as history:
+                history.write(filepath + '\n')
             break
         else:
             filepath = find_files(values["-INPUT-"], values["-COMBO-"])
+            print(filepath)
+            with open("a.txt", "a") as history:
+                history.write(filepath + '\n')
             break
 window.close()
 
