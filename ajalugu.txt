@@ -1,2 +1,5 @@
-K:/Python/Kvalifikatsioonikursus
-K:\a.txt
+C:/Users/Aloha/Music
+C:/Users/Aloha/Pictures
+C:/Users/Aloha/Videos
+D:/Popcorn Time
+D:/Riot Games

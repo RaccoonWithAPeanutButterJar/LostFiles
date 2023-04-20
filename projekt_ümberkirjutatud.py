@@ -104,14 +104,25 @@ def popup_text(filename, text):
             break
     win.close()  
 
-with open("ajalugu.txt") as lugemine:
+with open ("ajalugu.txt", "r+") as ajal:
+    read = ajal.readlines()
+    print(read)
+    if len(read) > 20:
+        ajal.seek(0)
+        ajal.truncate(0)
+        #open('ajalugu.txt', 'w').close()
+        ajal.writelines(read[1:])
+    else:
+        pass
+
+with open("ajalugu.txt", "r+") as ajalugutxt:
     filepaths = []
-    for rida in lugemine:
+    for rida in ajalugutxt:
         filepaths.append(rida)
         fpath = [
                 f
                 for f in filepaths
-            ]
+                ]
 
 faili_otsimis_menüü = [
         [sg.Text('Mis faili soovid leida: ')],
@@ -151,7 +162,7 @@ while True:
         if os.path.isdir(values["-INPUT-"]):
             filepath = values["-INPUT-"]
             print(filepath)
-            with open("a.txt", "a") as history:
+            with open("ajalugu.txt", "a") as history:
                 history.write(filepath + '\n')
             break
         else:
