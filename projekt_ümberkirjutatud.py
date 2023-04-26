@@ -3,6 +3,9 @@ from pathlib import Path
 import os
 import win32api
 
+global filepath
+global find_files
+
 #Arvutis leiduvate ketaste leidmine
 global drives
 drives = win32api.GetLogicalDriveStrings()
@@ -81,7 +84,6 @@ def kaust(filepath):
     window.close()
 
 #Faili leidmine
-global find_files
 def find_files(filename, search_path):
    result = []
 # Walking top-down from the root
@@ -106,7 +108,6 @@ def popup_text(filename, text):
 
 with open ("ajalugu.txt", "r+") as ajal:
     read = ajal.readlines()
-    print(read)
     if len(read) > 20:
         ajal.seek(0)
         ajal.truncate(0)
@@ -128,9 +129,9 @@ faili_otsimis_menüü = [
         [sg.Text('Mis faili soovid leida: ')],
         [sg.In(size=(40, 20), key = "-INPUT-"), sg.FolderBrowse()],
         [sg.Text('Kust kettalt (Kui kasutad browse, siis võid vahele jätta): ')],
-        [sg.Combo(values = add_drives(), default_value = add_drives()[0], font=('Arial Bold', 14), expand_x=True, enable_events=True,  readonly=False, key='-COMBO-')],
+        [sg.Combo(values = add_drives(), default_value = 'C:\ ', font=('Arial Bold', 14), expand_x=True, enable_events=True,  readonly=False, key='-COMBO-')],
         [sg.Text('Missugust vastuse formaati soovid: ')],
-        [sg.Combo(values = ['top dir', 'bot dir', 'ketas', 'vii sinna'], default_value = 'vii sinna', font=('Arial Bold', 14), expand_x=True, enable_events=True,  readonly=False, key='-VASTUS-')],
+        [sg.Combo(values = ['top dir', 'bot dir', 'ketas'], default_value = 'top dir', font=('Arial Bold', 14), expand_x=True, enable_events=True,  readonly=False, key='-VASTUS-')],
         [sg.Button("OK", enable_events = True, size = (3, 1), key = "-OK-"), sg.Button("Cancel", enable_events = True, key = "-CANCEL-")]
         ]
 
@@ -147,8 +148,6 @@ layout2 = [
         ]
 ]
 
-global filepath
-
 window = sg.Window('Faili otsing', layout2, finalize = True)
 if filepaths:
     window["-AJALUGU-"].update(fpath)
@@ -158,21 +157,41 @@ while True:
         break
     elif event == "-AJALUGU-":
         filepath = values["-AJALUGU-"][0]
-        print(filepath)
         break
     elif event == "-OK-":
-        if os.path.isdir(values["-INPUT-"]):
-            filepath = values["-INPUT-"]
-            print(filepath)
-            with open("ajalugu.txt", "a") as history:
-                history.write(filepath + '\n')
-            break
-        else:
-            filepath = find_files(values["-INPUT-"], values["-COMBO-"])
-            print(filepath)
-            with open("ajalugu.txt", "a") as history:
-                history.write(filepath + '\n')
-            break
+        if values["-VASTUS-"] == 'top dir':
+            if os.path.isdir(values["-INPUT-"]):
+                filepath = values["-INPUT-"]
+                with open("ajalugu.txt", "a") as history:
+                    history.write(filepath + '\n')
+                break
+            else:
+                filepath = find_files(values["-INPUT-"], values["-COMBO-"])
+                with open("ajalugu.txt", "a") as history:
+                    history.write(filepath + '\n')
+                break
+        if values["-VASTUS-"] == 'bot dir':
+            if os.path.isdir(values["-INPUT-"]):
+                filepath = values["-INPUT-"].split("/")[0] + "/" + values["-INPUT-"].split("/")[1]
+                with open("ajalugu.txt", "a") as history:
+                    history.write(filepath + '\n')
+                break
+            else:
+                filepath = find_files(values["-INPUT-"], values["-COMBO-"])
+                with open("ajalugu.txt", "a") as history:
+                    history.write(filepath + '\n')
+                break
+        if values["-VASTUS-"] == 'ketas':
+            if os.path.isdir(values["-INPUT-"]):
+                filepath = values["-INPUT-"][0:3]
+                with open("ajalugu.txt", "a") as history:
+                    history.write(filepath + '\n')
+                break
+            else:
+                filepath = find_files(values["-INPUT-"], values["-COMBO-"])
+                with open("ajalugu.txt", "a") as history:
+                    history.write(filepath + '\n')
+                break
 window.close()
 
 if os.path.isdir(filepath):
