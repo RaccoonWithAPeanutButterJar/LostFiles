@@ -16,3 +16,6 @@ C:/Users/Aloha/Documents/Battlefield V/twinkle/assets
 C:/Users/Aloha/Documents/Battlefield V/twinkle/assets
 C:/C:
 C:/SWSetup
+D:\Games\a.txt
+D:\Games
+D:\

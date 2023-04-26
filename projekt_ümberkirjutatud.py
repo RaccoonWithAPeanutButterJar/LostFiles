@@ -177,7 +177,7 @@ while True:
                     history.write(filepath + '\n')
                 break
             else:
-                filepath = find_files(values["-INPUT-"], values["-COMBO-"])
+                filepath = find_files(values["-INPUT-"], values["-COMBO-"]).split("\\")[0] + "\\" + find_files(values["-INPUT-"], values["-COMBO-"]).split("\\")[1]
                 with open("ajalugu.txt", "a") as history:
                     history.write(filepath + '\n')
                 break
@@ -188,7 +188,7 @@ while True:
                     history.write(filepath + '\n')
                 break
             else:
-                filepath = find_files(values["-INPUT-"], values["-COMBO-"])
+                filepath = find_files(values["-INPUT-"], values["-COMBO-"])[0:3]
                 with open("ajalugu.txt", "a") as history:
                     history.write(filepath + '\n')
                 break
