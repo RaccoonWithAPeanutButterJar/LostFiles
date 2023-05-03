@@ -1,13 +1,3 @@
-D:/Riot Games
-D:/Games
-D:/Games/Battlefield V
-D:\Games\a.txt
-D:/Games/Battlefield V/Core
-C:/Us
-C:/
-C:/Users/Aloha/Documents/Battlefield V/twinkle
-C:/Users/Aloha/Documents/Battlefield V/twinkle/assets
-C:/Users/Aloha/Documents/Battlefield V/twinkle/assets
 C:/Users/Aloha/Documents/Battlefield V/twinkle/assets
 C:/Users/Aloha/Documents/Battlefield V/twinkle/assets
 C:/C:
@@ -18,3 +8,13 @@ D:\
 D:\Games\a.txt
 C:/SWSetup/Metro/Avast
 C:/Users/Aloha/Documents/Guacamelee2
+C:/Users/rico.kaio/Downloads
+C:/Users/rico.kaio/Music
+C:/Users/rico.kaio/Music
+C:/Users/rico.kaio/Pictures
+K:\a.txt
+K:\a.txt
+C:\a\abbadi.txt
+C:\a\abbadi.txt
+C:\a\abbadi.txt
+C:\a\abbadi.txt

@@ -141,7 +141,7 @@ faili_otsimis_menüü = [
         [sg.Text('Mis faili soovid leida: ')],
         [sg.In(size=(40, 20), key = "-INPUT-"), sg.FolderBrowse()],
         [sg.Text('Kust kettalt (Kui kasutad browse, siis võid vahele jätta): ')],
-        [sg.Combo(values = add_drives(), default_value = 'C:\ ', font=('Arial Bold', 14), expand_x=True, enable_events=True,  readonly=False, key='-COMBO-')],
+        [sg.Combo(values = add_drives(), default_value = 'C:\\', font=('Arial Bold', 14), expand_x=True, enable_events=True,  readonly=False, key='-COMBO-')],
         [sg.Text('Missugust vastuse formaati soovid: ')],
         [sg.Combo(values = ['top dir', 'bot dir', 'ketas'], default_value = 'top dir', font=('Arial Bold', 14), expand_x=True, enable_events=True,  readonly=False, key='-VASTUS-')],
         [sg.Button("OK", enable_events = True, size = (3, 1), key = "-OK-"), sg.Button("Cancel", enable_events = True, key = "-CANCEL-")]
@@ -167,6 +167,7 @@ layout2 = [
 ]
 
 window = sg.Window('Faili otsing', layout2, finalize = True)
+
 if filepaths_ajalugu:
     window["-AJALUGU-"].update(fpath)
 if filepaths_lemmikud:
