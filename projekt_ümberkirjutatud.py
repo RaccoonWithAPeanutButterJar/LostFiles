@@ -27,7 +27,7 @@ def kaust(faili_asukoht):
     Failide_tulp = [
         [
             sg.Text("Kaust: "),
-            #faili_asukoht here
+            #faili_asukoht
             sg.Input(default_text = faili_asukoht, size=(25, 1), enable_events=True, key="-KAUST-"),
             sg.Button("Lemmik", enable_events = True, size = (6,1), key = "-LEMMIK-"),
             sg.FolderBrowse(),
@@ -66,12 +66,12 @@ def kaust(faili_asukoht):
             except:
                 failide_nimekiri = []
 
-            fnames = [
+            failinimed = [
                 f
                 for f in failide_nimekiri
                 if os.path.isfile(os.path.join(kaust, f))
             ]
-            window["-NIMEKIRI-"].update(fnames)
+            window["-NIMEKIRI-"].update(failinimed)
         #Vajutatakse "lemmik" nuppu
         if event == "-LEMMIK-":
             with open("lemmikud.txt", "a") as lemmikud:
@@ -94,12 +94,12 @@ def kaust(faili_asukoht):
 
 #Faili leidmine
 def otsi_fail(faili_nimi, rada):
-   tulemus = []
-# Walking top-down from the root
-   for root, dir, failid in os.walk(rada):
-      if faili_nimi in failid:
-         tulemus.append(os.path.join(root, faili_nimi))
-   return tulemus[0]
+    tulemus = []
+# Faili otsimine
+    for root, dir, failid in os.walk(rada):
+        if faili_nimi in failid:
+            tulemus.append(os.path.join(root, faili_nimi))
+    return tulemus[0]
 
 #kui avada tekstifail
 def popup_text(faili_nimi, text):
